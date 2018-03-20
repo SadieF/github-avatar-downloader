@@ -1,6 +1,8 @@
 var request = require('request');
 var secrets = require('./secrets.js');
 var fs = require('fs');
+var owner = process.argv[2];
+var repo = process.argv[3];
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 function getRepoContributors(repoOwner, repoName, cb) {
@@ -31,18 +33,17 @@ function downloadImageByURL(url, filePath) {
 }
 
 getRepoContributors("jquery", "jquery", function(err, result) {
-  if (err) {
-    console.log("Errors:", err);
+  if (!owner || !repo || err) {
+    console.log("Nope sorry - more params needed");
   } else {
     console.log("Got", result.length, "contributor stalker-packets, proceeding with stalking.");
     result.forEach(function (object) {
       var login = object.login;
-      downloadImageByURL(object.avatar_url, 'avatars/' + login + '.jpg');
+      downloadImageByURL(repo, owner + ".jpg");
     });
   }
 
 });
-
 
 
 
